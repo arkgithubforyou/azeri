@@ -4,3 +4,5 @@
 * in train set: number of rules = 5171; number of minimal rules = 205; 69, 102, 124
 ## 2018.8.3
     @ yanzhe, add brief introduction here of the current method and performance. e.g. 5 lines per task.
+## 2018.8.4
+* task 1 yields a 0.38 accuracy.
