@@ -3,6 +3,7 @@ import getopt
 import dill
 import utils
 from configurations import config
+import utils2
 
 def inflect(lemma, description, rules):
     """
@@ -108,11 +109,11 @@ if __name__ == '__main__':
         print('Zhai Fangzhou, 2566641')
         print('Zhu Dawei, 2549931')
         exit(0)
-    if '-tr' in opts:
+    if '--tr' in opts:
         ''' update train file path '''
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
         dill.dump((opts['-tr'], test_file), open(config.config_file, 'wb'))
-    if '-te' in opts:
+    if '--te' in opts:
         ''' update test file path '''
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
         dill.dump((opts['-te'], test_file), open(config.config_file, 'wb'))
