@@ -3,6 +3,7 @@ import getopt
 import dill
 import utils
 from configurations import config
+import utils2
 
 def inflect(lemma, description, rules):
     """
@@ -16,10 +17,8 @@ def inflect(lemma, description, rules):
     vowel_list = ['a', 'i', 'ı', 'ə', 'ö', 'ü', 'u', 'o', 'e']
     round_vowel = ['a', 'ı','u', 'o']
 
-    if rules[description] == list():
-        ''' use first rule if no rule exists for this description '''
-        rule = rules[description][0]
-    elif len(rules[description]) > 1:
+
+    if len(rules[description]) > 1:
         ## to match feature 1
         for rule_in_list in rules[description]:
             if lemma[-2:] == rule_in_list[2]:
@@ -55,11 +54,14 @@ def inflect(lemma, description, rules):
                 if vowel == rule_in_list[5]:
                     rule = rule_in_list
                     break
-        ## if no rule matches, use first rule           
         if rule == 0:
             rule = rules[description][0]
-#           print(elements, rules[description])
-            no_rule_count += 1
+    ## if no rule matches, use first rule
+    elif len(rules[description]) >0:
+        rule = rules[description][0]
+#         print(elements, rules[description])
+    else:
+        return lemma
     if rule[0] == '0':
         stem = lemma
 #       print(stem)
@@ -82,6 +84,7 @@ def batch_inflect(train_data, test_data):
     :return: the statistics, and the output
     """
     rules = utils2.generate_rules_task2(train_data)
+    # print('rules', rules)
     output = list()
     correct_list = list()
     for test_item in test_data:
@@ -108,11 +111,11 @@ if __name__ == '__main__':
         print('Zhai Fangzhou, 2566641')
         print('Zhu Dawei, 2549931')
         exit(0)
-    if '-tr' in opts:
+    if '--tr' in opts:
         ''' update train file path '''
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
         dill.dump((opts['-tr'], test_file), open(config.config_file, 'wb'))
-    if '-te' in opts:
+    if '--te' in opts:
         ''' update test file path '''
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
         dill.dump((opts['-te'], test_file), open(config.config_file, 'wb'))

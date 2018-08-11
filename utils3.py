@@ -139,7 +139,75 @@ def generate_rules_task2(data):
     # print(rules)
     return rules
         
-
+def generate_rules_task3(data):
+    """
+    yz
+    08.10.2018
+    generate features
+    NOTE: Due to data statistics, the Azeri language has NO prefix.
+    :param data: data used for rule generation. list of dictionaries.
+    :return: a dictionary, each item represent rules of an inflection type
+        key: 'inflection type'
+        value: a list of 5 elements
+            element 1: feature 1: last two letters of lemma
+            element 2: feature 2: vowel in last two letters (no consecutive vowels is observed)
+            element 3: feature 3: identify 'a', 'ı','u', 'o' in the last two letters
+            element 4: feature 4: last letter of lemma
+            element 5: description
+            (feature 1-4 are defined in terms of lemma)
+    """
+    rules_feature = defaultdict(list)
+    count_pre_diff = 0
+    no_change = ['0', '0']
+    vowel_list = ['a', 'i', 'ı', 'ə', 'ö', 'ü', 'u', 'o', 'e']
+    round_vowel = ['a', 'ı','u', 'o']
+    for item in data:
+        if len(item['lemma']) >1:
+            inflected_form = item['inflection']
+#             print(rules[cat])
+            if item['lemma'][:2] == item['inflection'][:2]:
+                count_pre_diff += 1
+            least_len = min(len(item['lemma']), len(item['inflection']))
+            t = 0
+#             print(len(item['lemma']), len(item['inflection']), least_len)
+            for i in range(least_len):
+#                 print(i)
+                if item['lemma'][i] != item['inflection'][i]:
+                    break
+                t+=1
+#                 print(t, item['lemma'][i], item['inflection'][i])
+            rule_feature = list()
+            inflection = list()
+            if len(item['lemma']) == t:
+                inflection.append('0')
+            else:
+                inflection.append(item['lemma'][t:])
+            if len(item['inflection']) == t:
+                inflection.append('0')
+            else:
+                inflection.append(item['inflection'][t:])
+            inflection = tuple(inflection)
+            rule_feature.append(item['lemma'][-2:])        ## feature 1: last two letters
+            if item['lemma'][-1] in vowel_list:  ## feature 2: vowel in last two letters
+                rule_feature.append(item['lemma'][-1])
+            elif item['lemma'][-2] in vowel_list:
+                rule_feature.append(item['lemma'][-2])
+            else:
+                rule_feature.append('no_vowel')
+            if item['lemma'][-1] in round_vowel or item['lemma'][-2] in round_vowel: ## feature 3: identify 'a', 'ı','u', 'o' in the last two letters
+                rule_feature.append('round_vowel')
+            elif rule_feature[-1] == 'no_vowel':
+                rule_feature.append('no_vowel')
+            else:
+                rule_feature.append('no_round_vowel')
+            rule_feature.append(item['lemma'][-1])        ## feature 4: last letter
+            
+            rule_feature.append(item['descriptions'])  ## add type/label of the inflection
+            
+            if rule_feature not in rules_feature[inflection]:
+                rules_feature[inflection].append(rule_feature)
+                      
+    return rules_feature
     
 def load_data(data_file):
     """
