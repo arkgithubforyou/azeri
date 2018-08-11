@@ -57,22 +57,21 @@ def batch_inflect(train_data, test_data):
 
 
 if __name__ == '__main__':
-    opts, args = getopt.getopt(sys.argv[1:], 'agl', ['tr:', 'te:'])
-    opts = dict(opts)
+    opts = utils.getopt_for_naocanzhujiao(sys.argv[1:])
     if '-g' in opts:
         print('Group L01: Azeri')
         print('Guo Yanzhe, 2571732')
         print('Zhai Fangzhou, 2566641')
         print('Zhu Dawei, 2549931')
         exit(0)
-    if '--tr' in opts:
+    if '-tr' in opts:
         ''' update train file path '''
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
         dill.dump((opts['-tr'], test_file), open(config.config_file, 'wb'))
-    if '--te' in opts:
+    if '-te' in opts:
         ''' update test file path '''
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
-        dill.dump((opts['-te'], test_file), open(config.config_file, 'wb'))
+        dill.dump((train_file, opts['-te']), open(config.config_file, 'wb'))
     if '-a' in opts:
         ''' perform task 1 and evaluate accuracy '''
         # load data

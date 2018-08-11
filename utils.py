@@ -93,6 +93,19 @@ def load_data(data_file):
     return data
 
 
+def getopt_for_naocanzhujiao(args):
+    """
+    parse cmd arguments
+    :param args:
+    :return:
+    """
+    opts = dict()
+    for (i, arg) in enumerate(args):
+        if arg in ['-a', '-g', '-l']:
+            opts[arg] = ''
+        if arg in ['-tr', 'te']:
+            opts[arg] = args[i + 1]
+    return opts
 
 
 "==============  not for submission  ==============="
