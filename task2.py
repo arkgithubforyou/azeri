@@ -1,9 +1,8 @@
 import sys
 import getopt
 import dill
-import utils
 from configurations import config
-import utils2
+import utils
 
 def inflect(lemma, description, rules):
     """
@@ -83,7 +82,7 @@ def batch_inflect(train_data, test_data):
     :param test_data:
     :return: the statistics, and the output
     """
-    rules = utils2.generate_rules_task2(train_data)
+    rules = utils.generate_rules_task2(train_data)
     # print('rules', rules)
     output = list()
     correct_list = list()
