@@ -2,9 +2,8 @@ import sys
 import getopt
 import dill
 import utils
-import utils3
 from configurations import config
-import utils2
+
 
 
 ## referenced from https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Python
@@ -177,7 +176,7 @@ def batch_inflect(train_data, test_data):
     :param test_data:
     :return: the statistics, and the output
     """
-    rules = utils3.generate_rules_task3(train_data)
+    rules = utils.generate_rules_task3(train_data)
     # print('rules', rules)
     output = list()
     correct_list = list()
