@@ -310,7 +310,7 @@ def getopt_for_naocanzhujiao(args):
     for (i, arg) in enumerate(args):
         if arg in ['-a', '-g', '-l']:
             opts[arg] = ''
-        if arg in ['-tr', 'te']:
+        if arg in ['-tr', '-te']:
             opts[arg] = args[i + 1]
     return opts
 
