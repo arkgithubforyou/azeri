@@ -280,9 +280,12 @@ def generate_rules(data):
     return rules
 
 
-def load_data(data_file):
+def load_data(data_file, task=1):
     """
-    read 3-column data files
+    read data files
+    task=1,2: lemma + description
+    task=3: lemma + inflection
+    task=4: full file with 3 columns
     :return: a list of dictionaries giving the lemma, the inflected form and the description as a string
     """
     data = list()
@@ -291,9 +294,18 @@ def load_data(data_file):
         while buffer != '':
             splitted_buffer = buffer.split('\t')
             item = dict()
-            item['lemma'] = splitted_buffer[0]
-            item['inflection'] = splitted_buffer[1]
-            item['descriptions'] = splitted_buffer[2]
+            if task == 1 or task == 2:
+                item['lemma'] = splitted_buffer[0]
+                # item['inflection'] = splitted_buffer[1]
+                item['descriptions'] = splitted_buffer[2]
+            elif task == 3:
+                item['lemma'] = splitted_buffer[0]
+                item['inflection'] = splitted_buffer[1]
+                # item['descriptions'] = splitted_buffer[2]
+            elif task == 4:
+                item['lemma'] = splitted_buffer[0]
+                item['inflection'] = splitted_buffer[1]
+                item['descriptions'] = splitted_buffer[2]
             data.append(item)
             buffer = fin.readline()
 
