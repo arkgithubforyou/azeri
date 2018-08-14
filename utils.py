@@ -280,7 +280,7 @@ def generate_rules(data):
     return rules
 
 
-def load_data(data_file, task=1):
+def load_data(data_file, task=4):
     """
     read data files
     task=1,2: lemma + description
