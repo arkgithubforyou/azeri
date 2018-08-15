@@ -74,21 +74,6 @@ if __name__ == '__main__':
         ''' update test file path '''
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
         dill.dump((train_file, opts['-te']), open(config.config_file, 'wb'))
-    if '-a' in opts:
-        ''' perform task 1 and evaluate accuracy '''
-        # load data
-        train_file, test_file = dill.load(open(config.config_file, 'rb'))
-        train_data = utils.load_data(train_file)
-        test_data = utils.load_data(test_file)
-        ''' perform inflection '''
-        tr_c, te_c, co_c, _ = batch_inflect(train_data, test_data)
-        ''' output accuracy '''
-        print('trained on: ' + train_file)
-        print('- training instances : ' + str(tr_c))
-        print('tested on: ' + test_file)
-        print('- testing instances : ' + str(te_c))
-        print('- correct instances : ' + str(co_c))
-        print('- accuracy : ' + str(round(co_c/te_c, 3)))
     if '-l' in opts:
         ''' perform task 1 and evaluate accuracy '''
         # load data
@@ -108,3 +93,19 @@ if __name__ == '__main__':
         ''' output results '''
         for item in results:
             print(item['inflection'])
+        print()
+    if '-a' in opts:
+        ''' perform task 1 and evaluate accuracy '''
+        # load data
+        train_file, test_file = dill.load(open(config.config_file, 'rb'))
+        train_data = utils.load_data(train_file)
+        test_data = utils.load_data(test_file)
+        ''' perform inflection '''
+        tr_c, te_c, co_c, _ = batch_inflect(train_data, test_data)
+        ''' output accuracy '''
+        print('trained on: ' + train_file)
+        print('- training instances : ' + str(tr_c))
+        print('tested on: ' + test_file)
+        print('- testing instances : ' + str(te_c))
+        print('- correct instances : ' + str(co_c))
+        print('- accuracy : ' + str(round(co_c/te_c, 3)))
