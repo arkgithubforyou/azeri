@@ -186,8 +186,10 @@ def batch_inflect(train_data, test_data):
         output_item['inflection'] = test_item['inflection']
         output_item['descriptions'] = inflect(output_item['lemma'], output_item['inflection'], rules)
         output.append(output_item)
-        if output_item['descriptions'] == test_item['descriptions']:
-            correct_list.append(test_item)
+
+        if 'descriptions' in test_item: #if the correct value is given in the test data, we are able compute the accuarcy
+            if output_item['descriptions'] == test_item['descriptions']:
+                correct_list.append(test_item)
     train_count = len(train_data)
     test_count = len(test_data)
     correct_count = len(correct_list)
@@ -234,14 +236,14 @@ if __name__ == '__main__':
         test_data = utils.load_data(test_file, 3)
         ''' perform inflection '''
         tr_c, te_c, co_c, results = batch_inflect(train_data, test_data)
-        ''' output accuracy '''
-        print('trained on: ' + train_file)
-        print('- training instances : ' + str(tr_c))
-        print('tested on: ' + test_file)
-        print('- testing instances : ' + str(te_c))
-        print('- correct instances : ' + str(co_c))
-        print('- accuracy : ' + str(round(co_c / te_c, 3)))
-        print('-------------------results--------------------')
+        # ''' output accuracy '''
+        # print('trained on: ' + train_file)
+        # print('- training instances : ' + str(tr_c))
+        # print('tested on: ' + test_file)
+        # print('- testing instances : ' + str(te_c))
+        # print('- correct instances : ' + str(co_c))
+        # print('- accuracy : ' + str(round(co_c / te_c, 3)))
+        # print('-------------------results--------------------')
         ''' output results '''
         for item in results:
             print(item['descriptions'])

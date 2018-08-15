@@ -283,6 +283,9 @@ def generate_rules(data):
 def load_data(data_file, task=1):
     """
     read data files.
+    We accept 2- and 3-coluumn format.
+    2-column format: task1,2: lemma description task3 : lemma inflection
+    3-column format: lemma inflection description
     task=1,2: lemma + description
     task=3: lemma + inflection
     :return: a list of dictionaries giving the lemma, the inflected form and the description as a string
@@ -304,11 +307,11 @@ def load_data(data_file, task=1):
                 assert(len(splitted_buffer) == 2)
                 item['lemma'] = splitted_buffer[0]
                 # item['inflection'] = splitted_buffer[1]
-                item['descriptions'] = splitted_buffer[2].strip() # strip() remove "\n" from the string
+                item['descriptions'] = splitted_buffer[1].strip() # strip() remove "\n" from the string
             elif task == 3:
                 assert (len(splitted_buffer) == 2)
                 item['lemma'] = splitted_buffer[0]
-                item['inflection'] = splitted_buffer[1]
+                item['inflection'] = splitted_buffer[1].strip() # strip() remove "\n" from the string
                 # item['descriptions'] = splitted_buffer[2]
             data.append(item)
             buffer = fin.readline()
