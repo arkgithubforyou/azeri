@@ -280,12 +280,11 @@ def generate_rules(data):
     return rules
 
 
-def load_data(data_file, task=4):
+def load_data(data_file, task=1):
     """
-    read data files
+    read data files.
     task=1,2: lemma + description
     task=3: lemma + inflection
-    task=4: full file with 3 columns
     :return: a list of dictionaries giving the lemma, the inflected form and the description as a string
     """
     data = list()
@@ -293,19 +292,24 @@ def load_data(data_file, task=4):
         buffer = fin.readline()
         while buffer != '':
             splitted_buffer = buffer.split('\t')
+            if((len(splitted_buffer) != 2) & (len(splitted_buffer) != 3)):
+                raise ValueError('WRONG format in the data, except: a row with 2 or 3 strings, got:', splitted_buffer)
             item = dict()
-            if task == 1 or task == 2:
+
+            if(len(splitted_buffer) == 3):
+                item['lemma'] = splitted_buffer[0]
+                item['inflection'] = splitted_buffer[1]
+                item['descriptions'] = splitted_buffer[2].strip() # strip() remove "\n" from the string
+            elif(task == 1 or task == 2):
+                assert(len(splitted_buffer) == 2)
                 item['lemma'] = splitted_buffer[0]
                 # item['inflection'] = splitted_buffer[1]
-                item['descriptions'] = splitted_buffer[2]
+                item['descriptions'] = splitted_buffer[2].strip() # strip() remove "\n" from the string
             elif task == 3:
+                assert (len(splitted_buffer) == 2)
                 item['lemma'] = splitted_buffer[0]
                 item['inflection'] = splitted_buffer[1]
                 # item['descriptions'] = splitted_buffer[2]
-            elif task == 4:
-                item['lemma'] = splitted_buffer[0]
-                item['inflection'] = splitted_buffer[1]
-                item['descriptions'] = splitted_buffer[2]
             data.append(item)
             buffer = fin.readline()
 

@@ -215,8 +215,8 @@ if __name__ == '__main__':
         ''' perform task 1 and evaluate accuracy '''
         # load data
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
-        train_data = utils.load_data(train_file)
-        test_data = utils.load_data(test_file)
+        train_data = utils.load_data(train_file, 3)
+        test_data = utils.load_data(test_file, 3)
         ''' perform inflection '''
         tr_c, te_c, co_c, _ = batch_inflect(train_data, test_data)
         ''' output accuracy '''
@@ -230,8 +230,8 @@ if __name__ == '__main__':
         ''' perform task 1 and evaluate accuracy '''
         # load data
         train_file, test_file = dill.load(open(config.config_file, 'rb'))
-        train_data = utils.load_data(train_file)
-        test_data = utils.load_data(test_file)
+        train_data = utils.load_data(train_file, 3)
+        test_data = utils.load_data(test_file, 3)
         ''' perform inflection '''
         tr_c, te_c, co_c, results = batch_inflect(train_data, test_data)
         ''' output accuracy '''
@@ -244,4 +244,4 @@ if __name__ == '__main__':
         print('-------------------results--------------------')
         ''' output results '''
         for item in results:
-            print(item['inflection'])
+            print(item['descriptions'])
